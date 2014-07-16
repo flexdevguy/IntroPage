@@ -1,0 +1,230 @@
+.lblWelcomeStyle
+{
+	fontSize:14;
+	fontFamily:Arial;
+	color:#8f8e8e;
+}
+.lblUserNameStyle
+{
+	fontSize:14;
+	fontFamily:Arial;
+	color:#FFFFFF;
+}
+.lblMenuTitleStyle
+{
+	fontSize:12;
+	fontFamily:Arial;
+	fontWeight:bold;
+	color:#FFFFFF;
+}
+.lblMenuNameStyle
+{
+	fontSize:12;
+	fontFamily:Arial;
+	fontWeight:bold;
+}
+
+.lblNavigatorStyle
+{
+	fontSize:20;
+	fontFamily:Arial;
+	color:#494949;
+}
+.lblcountStyle
+{
+	fontSize:12;
+	fontFamily:Arial;
+	fontWeight:bold;
+	color:#494949;
+}
+.transModelStyle
+{
+	backgroundColor:#000000;
+	backgroundAlpha:0.5;
+	horizontalScrollPolicy:"off";
+	verticalScrollPolicy:"off";
+}
+.lblOrangeNormalStyle
+{
+	fontSize:14;
+	fontFamily:Arial;
+	color:#ff9000;
+}
+.lblWhiteNormalStyle
+{
+	fontSize:14;
+	fontFamily:Arial;
+	color:#FFFFFF;
+}
+.lblListNormal
+{
+	fontSize:11;
+	fontFamily:Arial;
+	color:#8f8e8e;/*989b98*/
+	textAlign:"left";
+}
+.lblListOver
+{
+	fontSize:11;
+	fontFamily:Arial;
+	color:#ff9000;
+	textAlign:"left";
+}
+.lblNewsNormal
+{
+	fontSize:12;
+	fontFamily:Arial;
+	color:#000000;
+	textAlign:"left";
+}
+.lblNewsOver
+{
+	fontSize:12;
+	fontFamily:Arial;
+	color:#ff9000;
+	textAlign:"left";
+}
+List.newsLstStyle
+{
+	useRollOver:false;
+	selectionColor:#FFFFFF;	
+	borderThickness:0;
+	paddingTop:0;
+	paddingBottom:2;
+}
+
+.lblLinkNormal
+{
+	fontSize:12;
+	fontFamily:Arial;
+	color:#acacac;
+	textAlign:"left";
+}
+.lblLinkOver
+{
+	fontSize:12;
+	fontFamily:Arial;
+	color:#ff9000;
+	textAlign:"left";
+	textDecoration:"underline";
+}
+
+ToggleButtonBar.tglBtnNavigatorStyle {
+   buttonStyleName: "mytoggleButtonBarButtonStyle";
+   firstButtonStyleName: "mytoggleButtonBarFirstButtonStyle";
+   lastButtonStyleName: "mytoggleButtonBarLastButtonStyle";
+}
+
+.mytoggleButtonBarButtonStyle {
+	upSkin:Embed('/assets/icons/announce.png');
+	downSkin:Embed('/assets/icons/announce_hover.png');
+	overSkin:Embed('/assets/icons/announce_hover.png');
+	selectedUpSkin:Embed('/assets/icons/announce_hover.png');
+	selectedDownSkin:Embed('/assets/icons/announce_hover.png');
+	selectedOverSkin:Embed('/assets/icons/announce_hover.png');
+}
+
+.mytoggleButtonBarFirstButtonStyle {
+	upSkin:Embed('/assets/icons/news.png');
+	downSkin:Embed('/assets/icons/news_hover.png');
+	overSkin:Embed('/assets/icons/news_hover.png');
+	selectedUpSkin:Embed('/assets/icons/news_hover.png');
+	selectedDownSkin:Embed('/assets/icons/news_hover.png');
+	selectedOverSkin:Embed('/assets/icons/news_hover.png');
+}
+
+.mytoggleButtonBarLastButtonStyle {
+	upSkin:Embed('/assets/icons/announce.png');
+	downSkin:Embed('/assets/icons/announce_hover.png');
+	overSkin:Embed('/assets/icons/announce_hover.png');
+	selectedUpSkin:Embed('/assets/icons/announce_hover.png');
+	selectedDownSkin:Embed('/assets/icons/announce_hover.png');
+	selectedOverSkin:Embed('/assets/icons/announce_hover.png');
+}
+
+
+ToggleButtonBar.tglBtnCourselStyle {
+   /*buttonStyleName: "courselButtonBarButtonStyle";*/
+   firstButtonStyleName: "courselButtonBarFirstButtonStyle";
+   lastButtonStyleName: "courselButtonBarLastButtonStyle";
+}
+/*
+.courselButtonBarButtonStyle {
+	upSkin:Embed('/assets/icons/announce.png');
+	downSkin:Embed('/assets/icons/announce_hover.png');
+	overSkin:Embed('/assets/icons/announce_hover.png');
+	selectedUpSkin:Embed('/assets/icons/announce_hover.png');
+	selectedDownSkin:Embed('/assets/icons/announce_hover.png');
+	selectedOverSkin:Embed('/assets/icons/announce_hover.png');
+}
+*/
+.courselButtonBarFirstButtonStyle {
+	upSkin:Embed('/assets/icons/icon_birthday_normal.png');
+	downSkin:Embed('/assets/icons/icon_birthday_selected.png');
+	overSkin:Embed('/assets/icons/icon_birthday_selected.png');
+	selectedUpSkin:Embed('/assets/icons/icon_birthday_selected.png');
+	selectedDownSkin:Embed('/assets/icons/icon_birthday_selected.png');
+	selectedOverSkin:Embed('/assets/icons/icon_birthday_selected.png');
+}
+
+.courselButtonBarLastButtonStyle {
+	upSkin:Embed('/assets/icons/icon_newhair_normal.png');
+	downSkin:Embed('/assets/icons/icon_newhair_selected.png');
+	overSkin:Embed('/assets/icons/icon_newhair_selected.png');
+	selectedUpSkin:Embed('/assets/icons/icon_newhair_selected.png');
+	selectedDownSkin:Embed('/assets/icons/icon_newhair_selected.png');
+	selectedOverSkin:Embed('/assets/icons/icon_newhair_selected.png');
+}
+
+ToggleButtonBar.tglBtnImgSliderStyle {
+   buttonStyleName: "imgSliderButtonBarButtonStyle";
+   firstButtonStyleName: "imgSliderButtonBarFirstButtonStyle";
+   lastButtonStyleName: "imgSliderButtonBarLastButtonStyle";
+}
+
+.imgSliderButtonBarButtonStyle {
+	upSkin:Embed('/assets/icons/nav_dot.png');
+	downSkin:Embed('/assets/icons/nav_dot_select.png');
+	overSkin:Embed('/assets/icons/nav_dot_select.png');
+	selectedUpSkin:Embed('/assets/icons/nav_dot_select.png');
+	selectedDownSkin:Embed('/assets/icons/nav_dot_select.png');
+	selectedOverSkin:Embed('/assets/icons/nav_dot_select.png');
+}
+
+.imgSliderButtonBarFirstButtonStyle {
+	upSkin:Embed('/assets/icons/nav_dot.png');
+	downSkin:Embed('/assets/icons/nav_dot_select.png');
+	overSkin:Embed('/assets/icons/nav_dot_select.png');
+	selectedUpSkin:Embed('/assets/icons/nav_dot_select.png');
+	selectedDownSkin:Embed('/assets/icons/nav_dot_select.png');
+	selectedOverSkin:Embed('/assets/icons/nav_dot_select.png');
+}
+
+.imgSliderButtonBarLastButtonStyle {
+	upSkin:Embed('/assets/icons/nav_dot.png');
+	downSkin:Embed('/assets/icons/nav_dot_select.png');
+	overSkin:Embed('/assets/icons/nav_dot_select.png');
+	selectedUpSkin:Embed('/assets/icons/nav_dot_select.png');
+	selectedDownSkin:Embed('/assets/icons/nav_dot_select.png');
+	selectedOverSkin:Embed('/assets/icons/nav_dot_select.png');
+}
+Button.btnPrevThemeStyle
+{
+	upSkin:Embed('/assets/icons/prev_bg.png');
+	downSkin:Embed('/assets/icons/prev_bg.png');
+	overSkin:Embed('/assets/icons/prev_bg.png');
+	disabledSkin:Embed('/assets/icons/prev.png');
+	selectedUpSkin:Embed('/assets/icons/prev_bg.png');
+	selectedDownSkin:Embed('/assets/icons/prev_bg.png');
+	selectedOverSkin:Embed('/assets/icons/prev_bg.png');
+}
+Button.btnNextThemeStyle
+{
+	upSkin:Embed('/assets/icons/nxt_bg.png');
+	downSkin:Embed('/assets/icons/nxt_bg.png');
+	overSkin:Embed('/assets/icons/nxt_bg.png');
+	disabledSkin:Embed('/assets/icons/nxt.png');
+	selectedUpSkin:Embed('/assets/icons/nxt_bg.png');
+	selectedDownSkin:Embed('/assets/icons/nxt_bg.png');
+	selectedOverSkin:Embed('/assets/icons/nxt_bg.png');
+}

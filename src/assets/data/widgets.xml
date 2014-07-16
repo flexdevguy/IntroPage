@@ -1,0 +1,44 @@
+<widgets layout="horizontal">
+	<widget type="imageCarousel" dragEnabled="false">
+		<actionItems dragEnabled="false">
+			<widgetItem type="timeZone" default="IST" addable="false" changable="false"/>
+			<widgetItem type="timeZone" default="none" addable="true" changable="true"/>
+			<widgetItem type="timeZone" default="none" addable="true" changable="true"/>
+			<widgetItem type="weatherForecast" default="none" addable="false" changable="false"/>
+		</actionItems>
+		<widgetDatas navigator="true">
+			<widgetData normalIcon="assets/icons/icon_birthday1.png" selectedIcon="assets/icons/icon_birthday.png">
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+			</widgetData>
+			<widgetData normalIcon="assets/icons/icon_newhair1.png" selectedIcon="assets/icons/icon_newhair.png">
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+			</widgetData>
+		</widgetDatas>
+	</widget>
+	<widget type="tileList" dragEnabled="true">
+		<actionItems dragEnabled="true">
+			<widgetItem type="iconButton" default="none" addable="false" changable="false" removable="true"/>
+			<widgetItem type="iconButton" default="none" addable="false" changable="false" removable="true"/>
+			<widgetItem type="iconButton" default="none" addable="false" changable="false" removable="true"/>
+			<widgetItem type="iconButton" default="none" addable="false" changable="false" removable="true"/>
+			<widgetItem type="iconButton" default="none" addable="false" changable="false" removable="true"/>
+		</actionItems>
+		<widgetDatas navigator="false">
+			<widgetData normalIcon="assets/icons/icon_birthday1.png" selectedIcon="assets/icons/icon_birthday.png">
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+				<datum name="" description="" image=""/>
+			</widgetData>
+		</widgetDatas>
+	</widget>
+</widgets>

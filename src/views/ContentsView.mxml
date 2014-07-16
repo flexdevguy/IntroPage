@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	verticalAlign="middle"
+	xmlns:views="views.*"
+	horizontalScrollPolicy="off" 
+	verticalScrollPolicy="off">
+
+	<mx:Script>
+	<![CDATA[
+		
+	]]>
+	</mx:Script>
+	
+	<views:HomeView width="100%" height="100%" minHeight="310"/>
+</mx:VBox>

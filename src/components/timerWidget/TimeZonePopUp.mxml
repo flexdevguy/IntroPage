@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+			backgroundColor="0x000000" borderThickness="1" borderStyle="solid" borderColor="0x2C2C2C"
+			xmlns:comp="components.*"
+			width="270" height="220">
+	
+	<mx:Metadata>
+		[Event(name="close", type="mx.events.CloseEvent")]
+	</mx:Metadata>
+
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.events.ListEvent;
+			
+			
+			private var _title:String = "";
+			public function get title():String
+			{
+				return _title;
+			}
+			
+			public function set title(value:String):void
+			{
+				if(_title != value)
+					_title = value;
+			}
+			
+			private var timeZonesChanged:Boolean = false;
+			private var _timeZones:XMLList = null;
+			public function get timeZones():XMLList
+			{
+				return _timeZones;
+			}
+			
+			public function set timeZones(value:XMLList):void
+			{
+				if(_timeZones != value)
+				{
+					_timeZones = value;
+					timeZonesChanged = true;
+				}
+					
+			}
+			
+			private var _selectedTimeZone:XML = null;
+			public function get selectedTimeZone():XML
+			{
+				return _selectedTimeZone;
+			}
+			
+			public function set selectedTimeZone(value:XML):void
+			{
+				if(_selectedTimeZone != value)
+					_selectedTimeZone = value;
+			}
+			
+			
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				
+				if(lblTitle && title != lblTitle.text)
+				{
+					lblTitle.text = title;
+				}
+				if(timeZonesChanged)
+				{
+					lstZones.dataProvider = timeZones;
+					timeZonesChanged = false;
+				}
+			}
+			
+			private function onImgClose_ClickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+			}
+			
+			private function onTimeZoneItem_ClickHandler(event:ListEvent):void
+			{
+				selectedTimeZone = new XML(event.currentTarget.selectedItem);
+				dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+			}
+		
+		]]>
+	</mx:Script>
+	<mx:VBox width="100%" height="100%" verticalGap="5"
+		paddingTop="5" paddingBottom="5" paddingRight="5" paddingLeft="5">
+		
+		<mx:HBox width="100%">
+			<mx:Label id="lblTitle" width="100%" styleName="lblOrangeNormalStyle"/>
+			<mx:Image id="imgClose" source="assets/icons/close_theme.png" useHandCursor="true" buttonMode="true" click="onImgClose_ClickHandler(event)"/>
+		</mx:HBox>
+		
+		<comp:TileListExt id="lstZones" width="100%" height="100%" rowHeight="25" columnWidth="125"
+							horizontalGap="5" verticalGap="0" rollOverColor="0xFFFFFF" selectionColor="0xFFFFFF" textRollOverColor="0xff9000"
+							borderColor="0x000000" borderThickness="0"
+							maxColumns="2" columnCount="2" maxRows="7" rowCount="7" direction="horizontal" 
+							horizontalScrollPolicy="off" verticalScrollPolicy="off" 
+							backgroundAlpha="0.0" textIndent="10" focusAlpha="0"
+							showSelectionIndicator="false"
+							showHighlightIndicator="false"
+							useRollOver="false"
+							itemClick="onTimeZoneItem_ClickHandler(event)">
+							
+			<comp:itemRenderer>
+				<mx:Component>
+					<mx:Canvas width="125" height="25" useHandCursor="true" buttonMode="true" horizontalScrollPolicy="off" verticalScrollPolicy="off"
+								backgroundColor="0x171717" borderThickness="1" borderStyle="solid" borderColor="0x2C2C2C">
+						<mx:HBox width="100%" height="100%" verticalAlign="middle" horizontalGap="-2"
+								rollOver="{lblItem.styleName='lblListOver'}" rollOut="{lblItem.styleName='lblListNormal'}"
+								mouseChildren="false" useHandCursor="true" buttonMode="true" verticalCenter="0"
+								paddingTop="2" paddingBottom="2" paddingRight="2" paddingLeft="2">
+							<mx:Image id="imgFlag" source="{data.@flag}" width="37" height="20"/>
+							<mx:Label id="lblItem" text="{data.@country}" styleName="lblListNormal" fontSize="12" verticalCenter="0" width="100%"/>
+						</mx:HBox>
+					</mx:Canvas>
+				</mx:Component>
+			</comp:itemRenderer>
+		</comp:TileListExt>
+	</mx:VBox>
+</mx:Canvas>

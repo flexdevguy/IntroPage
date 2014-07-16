@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				xmlns:views="views.*"
+				width="100%" height="100%"
+				paddingRight="0" paddingLeft="-10"
+				paddingBottom="0" paddingTop="0"
+				horizontalScrollPolicy="off"
+				creationComplete="onAppCreation_CompleteHandler(event)">
+				
+	<mx:Style source="assets/css/styles.css"/>
+
+	<mx:Script>
+	<![CDATA[
+		import mx.events.FlexEvent;
+		
+		import mx.events.ListEvent;
+		import mx.collections.ArrayCollection;
+		
+		[Bindable]
+		private var themesData:ArrayCollection = new ArrayCollection([{label:'Image 1', icon:'assets/icons/theme1.jpg', theme:'assets/images/theme/1.jpg'},
+																	{label:'Image 2', icon:'assets/icons/theme2.jpg', theme:'assets/images/theme/2.jpg'},
+																	{label:'Image 3',  icon:'assets/icons/theme3.jpg', theme:'assets/images/theme/3.jpg'},
+																	{label:'add', icon:'assets/icons/add_theme.jpg', theme:''}]);
+																	
+		private function onAppCreation_CompleteHandler(event:FlexEvent):void
+		{
+			headerView.imgTheme.addEventListener(MouseEvent.CLICK, onThemeClick_Handler);
+		}
+		
+		private function onThemeClick_Handler(event:MouseEvent):void
+		{
+			trace("theme clicked");
+			themeContainer.visible = true;
+		}
+		private function onThemeChangeClick_Handler(event:ListEvent):void
+		{
+			if(event.currentTarget.selectedItem)
+			{
+				var selectedTheme:Object = event.currentTarget.selectedItem;
+				if(selectedTheme.label != 'add')
+				{
+					imgBgTheme.source = selectedTheme.theme != '' ? selectedTheme.theme : 'assets/images/theme/1.jpg';
+				}
+			}
+			
+		}
+	]]>
+	</mx:Script>
+	
+	<mx:Move id="themeShowEffect" yFrom="{-themeContainer.height}" yTo="0"/>
+	<mx:Move id="themeHideEffect" yFrom="0" yTo="{-themeContainer.height}"/>
+	
+	<mx:Canvas id="baseContainer" width="100%" height="725" backgroundColor="0xFFFFFF" horizontalScrollPolicy="off">
+		<mx:Canvas id="bgContainer" width="100%" height="100%" backgroundColor="0xE5E5E5" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+			<mx:Image id="imgBgTheme" source="assets/images/theme/1.jpg"/>
+			<mx:Canvas id="imgOverlay" width="100%" height="{imgBgTheme.height}" backgroundAlpha="0.5" backgroundColor="0x000000"/>
+		</mx:Canvas>
+		
+		<mx:VBox id="mainContents" width="100%" height="100%" verticalGap="0"  horizontalScrollPolicy="off" verticalScrollPolicy="off">
+			<mx:Canvas id="headerArea" width="100%" height="110" backgroundAlpha="0.0" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<views:HeaderView id="headerView" width="890" height="100%" horizontalCenter="0" verticalCenter="0"/>
+			</mx:Canvas>
+			<mx:Canvas id="contentArea" width="100%" height="100%" backgroundAlpha="0.0" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<views:ContentsView id="contentView" width="890" height="100%" horizontalCenter="0" verticalCenter="0"/>
+			</mx:Canvas>
+			<mx:Canvas id="footerArea" width="100%" height="70"  backgroundColor="0x2E2E2E" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<views:FooterView id="footerView" width="890" height="100%" horizontalCenter="0" verticalCenter="0"/>
+			</mx:Canvas>
+		</mx:VBox>
+
+		<!-- invisible container for theme-->
+		<mx:HBox width="890" height="130" backgroundAlpha="0.0" horizontalAlign="right" horizontalCenter="0">
+			<mx:VBox id="themeContainer" visible="false" width="410" height="130" 
+					backgroundColor="0x000000" borderColor="0x2c2c2c" borderThickness="1" borderStyle="solid"
+					paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"
+					horizontalScrollPolicy="off" verticalScrollPolicy="off"
+					showEffect="{themeShowEffect}"
+					hideEffect="{themeHideEffect}">
+					
+				<mx:HBox width="100%">
+					<mx:Label text="CHANGE BACKGROUND" color="0xff9000" fontSize="14" textAlign="left"/>
+					<mx:Spacer width="100%"/>
+					<mx:Image id="imgCloseTheme" source="assets/icons/close_theme.png" click="{themeContainer.visible = false}"/>
+				</mx:HBox>
+			
+				<mx:HBox top="30" width="100%" height="100%" horizontalAlign="center" verticalAlign="middle"  horizontalScrollPolicy="off" verticalScrollPolicy="off">
+					<mx:Button id="btnPrevTheme" styleName="btnPrevThemeStyle"/>
+					<mx:HorizontalList id="lstTheme" width="100%" height="100%" dataProvider="{themesData}" itemClick="onThemeChangeClick_Handler(event)" 
+									backgroundAlpha="0.0" borderThickness="0" paddingTop="0" paddingBottom="0" columnWidth="92" useRollOver="false"
+									selectionColor="0x000000"  horizontalScrollPolicy="off" verticalScrollPolicy="off">
+						<mx:itemRenderer>
+							<mx:Component>
+								<mx:Canvas width="84" height="84"  horizontalScrollPolicy="off" verticalScrollPolicy="off" 
+									backgroundColor="0x000000" borderThickness="1" borderColor="0x2c2c2c" borderStyle="solid"
+									horizontalCenter="0" verticalCenter="0"> 
+									<mx:VBox width="100%" height="100%" horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center" verticalAlign="middle">
+										<mx:Image width="100%" height="100%" source="{data.icon}" useHandCursor="true" buttonMode="true"/>
+									</mx:VBox>
+								</mx:Canvas>
+							</mx:Component>
+						</mx:itemRenderer>
+					</mx:HorizontalList>
+					<mx:Button id="btnNextTheme" styleName="btnNextThemeStyle"/>
+				</mx:HBox>
+			</mx:VBox>
+		</mx:HBox>
+	</mx:Canvas>
+</mx:Application>

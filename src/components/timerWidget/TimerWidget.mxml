@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:views="views.*"
+	xmlns:local="*"
+	horizontalScrollPolicy="off" 
+	verticalScrollPolicy="off"
+	creationComplete="onWidgetCreation_CompleteHandler(event)">
+
+	<mx:Script>
+	<![CDATA[
+		import mx.events.FlexEvent;
+		import flash.events.TimerEvent;
+		import flash.utils.getTimer;
+		import flash.utils.Timer;
+		import mx.formatters.DateFormatter;
+		import mx.managers.PopUpManager;
+		import mx.events.CloseEvent;
+		
+		private var _selectedTimeZone:XML = null;
+		public function get selectedTimeZone():XML
+		{
+			return _selectedTimeZone;
+		}
+		
+		public function set selectedTimeZone(value:XML):void
+		{
+			if(_selectedTimeZone != value)
+			{
+				_selectedTimeZone = value;
+				invalidateProperties();
+			}
+		}
+		
+		private var _selectedDate:Date;
+		public function get selectedDate():Date
+		{
+			return _selectedDate;
+		}
+		
+		public function set selectedDate(value:Date):void
+		{
+			if(_selectedDate != value)
+			{
+				_selectedDate = value;
+			}
+		}
+		
+		private var _showLocalTime:Boolean = false;
+		public function get showLocalTime():Boolean
+		{
+			return _showLocalTime;
+		}
+		
+		public function set showLocalTime(value:Boolean):void
+		{
+			if(_showLocalTime != value)
+			{
+				_showLocalTime = value;
+			}
+		}
+		
+		
+		private var _timeZoneProvider:XML = null;
+		public function get timeZoneProvider():XML
+		{
+			return _timeZoneProvider;
+		}
+		
+		public function set timeZoneProvider(value:XML):void
+		{
+			if(_timeZoneProvider != value)
+			{
+				_timeZoneProvider = value;
+			}
+		}
+		
+		private var _changable:Boolean = false;
+		public function get changable():Boolean
+		{
+			return _changable;
+		}
+		public function set changable(value:Boolean):void
+		{
+			if(_changable != value)
+				_changable = value;
+			
+			this.mouseChildren = !value;
+			this.buttonMode = value;
+			this.useHandCursor = value;
+			if(value)
+				this.addEventListener(MouseEvent.CLICK, onTimerWidgetClick_Handler);
+			else
+				this.removeEventListener(MouseEvent.CLICK, onTimerWidgetClick_Handler);
+		}
+		
+		
+		private var dateFormatter:DateFormatter;
+		private var dateTime:String = "";
+		private var dateTimeArr:Array = [];
+		private var timer:Timer = new Timer(1000);
+		
+		private function onWidgetCreation_CompleteHandler(event:FlexEvent):void
+		{
+			dateFormatter = new DateFormatter();
+			dateFormatter.formatString = "DD/MMMM/YY LL:NN:SS A";
+			
+			if(showLocalTime)
+			{
+				//Local time.(India) 
+				// for dynamic country need to get ip info
+				
+				selectedTimeZone = <timezone country="India" flag="assets/icons/india.jpg" utcoffsetmin="+330"/>;
+				selectedDate = new Date();
+				startTimer();
+			}
+			
+		}
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			
+			if(selectedTimeZone)
+			{
+				detailsBox.visible = true;
+				detailsBox.includeInLayout = true;
+				
+				imgAdd.visible = false;
+				imgAdd.includeInLayout = false;
+			}
+			else
+			{
+				detailsBox.visible = false;
+				detailsBox.includeInLayout = false;
+				
+				imgAdd.visible = true;
+				imgAdd.includeInLayout = true;
+			}
+		}
+		public function startTimer():void
+		{
+			if(timer.running)
+				resetTimer();
+				
+			timer.addEventListener(TimerEvent.TIMER, onTimerTick_Handler);
+			timer.start();
+		}
+		public function stopTimer():void
+		{
+			timer.removeEventListener(TimerEvent.TIMER, onTimerTick_Handler);
+			timer.stop();
+		}
+		public function resetTimer():void
+		{
+			timer.removeEventListener(TimerEvent.TIMER, onTimerTick_Handler);
+			timer.reset();
+		}
+		
+		private function onTimerTick_Handler(event:TimerEvent):void
+		{		
+
+			if(showLocalTime)
+			{
+				selectedDate = new Date();
+			}		
+			else
+			{
+				selectedDate = getDateFromTimeZone(selectedTimeZone);
+			}
+			
+			dateTime = dateFormatter.format(selectedDate);
+			dateTimeArr = dateTime.split(' ');
+			
+			lblCountry.text = selectedTimeZone.@country.toString();
+			lblDate.text = dateTimeArr[0].split('/').join(' ');
+			lblTime.text = dateTimeArr[1]+" "+dateTimeArr[2];
+		}
+		private var timeZone:TimeZonePopUp = null;
+		private function onTimerWidgetClick_Handler(event:MouseEvent):void
+		{
+			if(!timeZone)
+				timeZone = new TimeZonePopUp();
+			else if(timeZone.isPopUp)
+				return;
+				
+			timeZone.timeZones = timeZoneProvider.timezone;
+			timeZone.title = "ADD TIME ZONE";
+			
+			var pt:Point = this.parent.localToGlobal(new Point(this.x,this.y));
+			timeZone.x = pt.x;
+			timeZone.y = pt.y;
+			
+			timeZone.addEventListener(CloseEvent.CLOSE, onTimeZoneClose_ClickHandler);
+			PopUpManager.addPopUp(timeZone,this);
+		}
+		private function onTimeZoneClose_ClickHandler(event:CloseEvent):void
+		{
+			if(timeZone.selectedTimeZone)
+			{
+				showLocalTime = false;
+				var selectedTimeZoneXML:XML = timeZone.selectedTimeZone;
+				selectedTimeZone = selectedTimeZoneXML;
+				selectedDate = getDateFromTimeZone(selectedTimeZone);
+				startTimer();
+			}
+				
+			PopUpManager.removePopUp(timeZone);
+			timeZone = null;
+		}
+		
+		//---------------------------------------------
+		//		UTILS
+		//---------------------------------------------
+		
+		private function getDateFromTimeZone(value:XML):Date
+		{
+			var offsetMilliSec:Number = Number(value.@utcoffsetmin) * 60000;
+			var currentDate:Date = getUTCDate();
+			currentDate.setTime(currentDate.getTime() + offsetMilliSec);
+			return currentDate;
+		}
+		private function getUTCDate():Date
+		{
+			var utcDate:Date = new Date();
+			var offsetMilliseconds:Number = utcDate.getTimezoneOffset() * 60000; 
+			utcDate.setTime(utcDate.getTime() + offsetMilliseconds);
+			
+			return utcDate;
+		}
+		
+	]]>
+	</mx:Script>
+	
+	<mx:Image id="imgAdd" source="assets/icons/pluse.png" horizontalCenter="0" verticalCenter="0"/>
+	
+	<mx:VBox id="detailsBox" width="100%" height="100%" verticalGap="2" verticalAlign="middle" visible="false" includeInLayout="false"
+				paddingLeft="4" paddingTop="2" paddingBottom="4" paddingRight="4">
+		<mx:Label id="lblCountry" styleName="lblOrangeNormalStyle"/>
+		<mx:Label id="lblDate" styleName="lblWhiteNormalStyle"/>
+		<mx:Label id="lblTime" styleName="lblWhiteNormalStyle"/>
+	</mx:VBox>
+</mx:Canvas>

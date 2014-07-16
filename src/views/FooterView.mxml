@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:comp="components.*"
+	horizontalScrollPolicy="off" 
+	verticalScrollPolicy="off"
+	horizontalGap="0"
+	paddingRight="10"
+	paddingLeft="10"
+	paddingTop="10">
+ 
+	<mx:Script>
+	<![CDATA[
+		
+	]]>
+	</mx:Script>
+	<comp:LinkText text="Ramco Global Website"/>
+	<mx:Label text="|" color="0xACACAC" minWidth="0"/>
+	<comp:LinkText text="Ramco OnDemand"/>
+	<mx:Label text="|" color="0xACACAC" minWidth="0"/>
+	<comp:LinkText text=" Ramco Aviation"/>
+	<mx:Spacer width="100%"/>
+	<mx:Image source="assets/icons/icon_fb.png"/>
+	<mx:Label text="|" color="0xACACAC" minWidth="0"/>
+	<mx:Image source="assets/icons/icon_google.png"/>
+	<mx:Label text="|" color="0xACACAC" minWidth="0"/>
+	<mx:Image source="assets/icons/icon_twitter.png"/>
+	<mx:Label text="|" color="0xACACAC" minWidth="0"/>
+	<mx:Image source="assets/icons/icon_in.png"/>
+</mx:HBox>

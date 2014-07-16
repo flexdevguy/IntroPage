@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	verticalAlign="middle"
+	xmlns:views="views.*"
+	xmlns:comp="components.*"
+	verticalGap="10"
+	horizontalScrollPolicy="off" 
+	verticalScrollPolicy="off">
+
+	<mx:Script>
+	<![CDATA[
+		import mx.collections.ArrayCollection;
+		import mx.events.ListEvent;
+		
+		[Bindable]
+		private var navData:ArrayCollection = new ArrayCollection([{label:' News',count:' 35',normalicon:'assets/icons/news_hover.png',hoverIcon:'assets/icons/news_hover.png'},
+									{label:'Announcement',count:'05',normalicon:'assets/icons/announce.png',hoverIcon:'assets/icons/announce_hover.png'},
+									{label:'Blog',count:'12',normalicon:'assets/icons/announce.png',hoverIcon:'assets/icons/announce_hover.png'}]);
+									
+		[Bindable]
+		private var selectedNavData:ArrayCollection = new ArrayCollection(["GoAir continues to fly smart with Ramco Aviation Suite",
+																			"Ramco HCM builds momentum in the Middle East",
+																			"Ramco migrates its ERP solution to Microsoft's SQL Server 2012",
+																			"Ramco reaffirms focus on Customer Centricity",
+																			"Business Line - Ramco Systems clambers on to the cloud to take on IT biggies",
+																			"Podar Education takes to the Cloud with Ramco ERP",
+																			"Ramco Q4 revenue grows 28% YoY"]);
+																			
+		private function onNavSelection_ChangeHandler(event:ListEvent):void
+		{
+			
+		}
+		
+	]]>
+	</mx:Script>
+	<views:WidgetsView width="100%" height="220"/>
+
+	<mx:HBox width="100%" height="100%" backgroundColor="0xFFFFFF" 
+						paddingLeft="10" paddingRight="10" paddingTop="10" paddingBottom="10" >
+		<mx:VBox width="65%" height="100%">
+		<!-- <mx:Button label="temp" styleName="mytoggleButtonBarButtonStyle"/>
+			 <mx:ToggleButtonBar dataProvider="{navData}" styleName="tglBtnNavigatorStyle" direction="vertical"/>-->
+			 
+			<comp:TileListExt id="lstNavigator" dataProvider="{navData}" width="100%" height="65" columnWidth="190" 
+						horizontalGap="2" verticalGap="0" rollOverColor="0xFFFFFF" selectionColor="0xFFFFFF" borderColor="0xFFFFFF"
+						maxColumns="3" columnCount="3" maxRows="1" rowCount="1" direction="horizontal" 
+						horizontalScrollPolicy="off" verticalScrollPolicy="off" change="onNavSelection_ChangeHandler(event)">
+				<comp:itemRenderer>
+					<mx:Component>
+						<mx:Canvas width="190" height="60" horizontalScrollPolicy="off" verticalScrollPolicy="off" backgroundColor="0xFFFFFF" backgroundAlpha="0.01"
+									rollOver="{imgBackground.source=data.hoverIcon}" rollOut="{imgBackground.source=data.normalicon}">
+							<mx:Image id="imgBackground" source="{data.normalicon}" width="100%" maintainAspectRatio="false" scaleContent="true"/>
+							<mx:VBox left="50" height="46" verticalGap="-5" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+								<mx:Label text="{data.label}" styleName="lblNavigatorStyle" height="28"/>
+								<mx:Label text="{data.count}" styleName="lblcountStyle" height="20"/>
+							</mx:VBox>
+						</mx:Canvas>
+					</mx:Component>
+				</comp:itemRenderer>
+			</comp:TileListExt>
+			
+			<mx:List id="lstSelectedData" width="100%" height="100%" dataProvider="{selectedNavData}" styleName="newsLstStyle" 
+					verticalScrollPolicy="off" horizontalScrollPolicy="off">
+				<mx:itemRenderer>
+					<mx:Component>
+						<mx:VBox verticalGap="2" rollOver="{lblItem.styleName='lblNewsOver'}" rollOut="{lblItem.styleName='lblNewsNormal'}"
+								horizontalScrollPolicy="off" verticalScrollPolicy="off">
+							<mx:Label id="lblItem" width="100%" text="{data.toString()}" styleName="lblNewsNormal"/>
+							<mx:HRule width="100%" strokeWidth="1" strokeColor="0xECECEC" />
+						</mx:VBox>
+					</mx:Component>
+				</mx:itemRenderer>
+			</mx:List>
+			
+			<mx:HBox width="100%">
+				<mx:Spacer width="100%"/>
+				<mx:Image id="imgPreviousArrow" source="assets/icons/arrow_prev.png"/>
+				<mx:Image id="imgNextArrow" source="assets/icons/arrow_nxt.png"/>
+			</mx:HBox>
+		</mx:VBox>
+		<mx:VRule height="100%" strokeWidth="1" strokeColor="0xECECEC"/>
+		<mx:VBox width="35%" height="100%" verticalGap="0">
+			
+			<mx:Label text="what's" color="#494949" fontFamily="Arial" fontSize="16" fontWeight="bold"/>
+			<mx:Label text="Happening?" color="#ff9000" fontFamily="Arial" fontSize="30"/>
+			<mx:Image source="assets/icons/ramco_leads.png"/>
+			<mx:HBox width="100%" verticalAlign="middle" horizontalAlign="center">
+				<mx:ToggleButtonBar verticalCenter="0" horizontalGap="10" width="100" styleName="tglBtnImgSliderStyle"
+						direction="horizontal" minWidth="0" selectedIndex="2" 
+						useHandCursor="true" buttonMode="true">
+					<mx:dataProvider>
+						<mx:ArrayCollection>
+							<mx:String></mx:String>
+							<mx:String></mx:String>
+							<mx:String></mx:String>
+							<mx:String></mx:String>
+							<mx:String></mx:String>
+						</mx:ArrayCollection>
+					</mx:dataProvider>
+				</mx:ToggleButtonBar>
+			</mx:HBox>
+		</mx:VBox>
+	</mx:HBox>
+
+</mx:VBox>

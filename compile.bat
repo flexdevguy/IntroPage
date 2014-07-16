@@ -1,0 +1,1 @@
+"%FLEX_3_HOME%\bin\mxmlc" -warnings=true -debug=true src\Index.mxml -include-libraries+="libs\papervision_phunky.swc" -include-libraries+="libs\tweener.swc" -output="bin-release\Index.swf"

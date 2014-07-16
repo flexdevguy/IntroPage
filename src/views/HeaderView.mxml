@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	verticalAlign="middle"
+	horizontalScrollPolicy="off" 
+	verticalScrollPolicy="off"
+	horizontalGap="10">
+
+	<mx:Script>
+	<![CDATA[
+		
+	]]>
+	</mx:Script>
+	
+	<mx:HBox paddingTop="18" height="100%" >
+		<mx:Image id="imgLogo" source="assets/icons/logo.png"/>
+	</mx:HBox>
+	
+	<mx:Spacer width="100%" height="100%"/>
+	<mx:VBox width="100%" height="100%" verticalGap="25" horizontalAlign="right">
+		<mx:HBox id="iconGroup" horizontalGap="20" verticalAlign="bottom" horizontalAlign="right" paddingBottom="15">
+			<mx:Image id="imgHome" source="assets/icons/icon_home.png" useHandCursor="true" buttonMode="true"/>
+			<mx:Image id="imgInbox" source="assets/icons/icon_mail.png" useHandCursor="true" buttonMode="true"/>
+			<mx:Image id="imgSettings" source="assets/icons/icon_settings.png" useHandCursor="true" buttonMode="true"/>
+			<mx:Image id="imgTheme" source="assets/icons/theme.png" useHandCursor="true" buttonMode="true"/>
+			<mx:HBox backgroundColor="0x000000" height="28" verticalAlign="middle" horizontalGap="1">
+				<mx:Label text="Welcome:" styleName="lblWelcomeStyle"/>
+				<mx:Label id="lblUserName" text="David Thomas" styleName="lblUserNameStyle"/>
+			</mx:HBox>
+		</mx:HBox>
+		<mx:HBox id="menuGroup" verticalAlign="middle" horizontalAlign="right" horizontalGap="2">
+			<mx:Label text="You are in " styleName="lblMenuTitleStyle"/>
+			<mx:Canvas id="menuContent" minWidth="215" height="29" backgroundColor="0xFAAD4B" backgroundAlpha="0.75">
+				<mx:Label id="lblSelectedMenu" text="Home" left="5" verticalCenter="0" styleName="lblMenuNameStyle"/>
+				<mx:Image id="imgDropDown" right="5" verticalCenter="0" source="assets/icons/down_arrow.png"/>
+			</mx:Canvas>
+		</mx:HBox>
+	</mx:VBox>
+</mx:HBox>

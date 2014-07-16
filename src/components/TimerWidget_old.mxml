@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	verticalAlign="middle"
+	xmlns:views="views.*"
+	horizontalScrollPolicy="off" 
+	verticalScrollPolicy="off"
+	creationComplete="onWidgetCreation_CompleteHandler(event)"
+	verticalGap="2">
+
+	<mx:Script>
+	<![CDATA[
+		import mx.events.FlexEvent;
+		import flash.events.TimerEvent;
+		import flash.utils.getTimer;
+		import flash.utils.Timer;
+		import mx.formatters.DateFormatter;
+	
+		private var _canChange:Boolean = true;
+		private var dateFormatter:DateFormatter;
+		private var dateTime:String = "";
+		private var dateTimeArr:Array = [];
+		
+		private function onWidgetCreation_CompleteHandler(event:FlexEvent):void
+		{
+			dateFormatter = new DateFormatter();
+			dateFormatter.formatString = "DD/MMMM/YY LL:NN:SS A";
+			
+			var timer:Timer = new Timer(1000);
+			timer.addEventListener(TimerEvent.TIMER, onTimerTick_Handler);;
+			timer.start();
+		}
+		private function onTimerTick_Handler(event:TimerEvent):void
+		{			
+			dateTime = dateFormatter.format(new Date());
+			dateTimeArr = dateTime.split(' ');
+			
+			lblDate.text = dateTimeArr[0].split('/').join(' ');
+			lblTime.text = dateTimeArr[1]+" "+dateTimeArr[2];
+		}
+	]]>
+	</mx:Script>
+	
+	<mx:Label id="lblCountry" text="India" styleName="lblOrangeNormalStyle"/>
+	<mx:Label id="lblDate" text="" styleName="lblWhiteNormalStyle"/>
+	<mx:Label id="lblTime" text="" styleName="lblWhiteNormalStyle"/>
+</mx:VBox>

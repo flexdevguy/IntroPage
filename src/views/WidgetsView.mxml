@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	verticalAlign="middle"
+	xmlns:views="views.*"
+	xmlns:comp="components.*"
+	xmlns:timerWidget="components.timerWidget.*"
+	xmlns:containers="com.dougmccune.containers.*"
+	 horizontalScrollPolicy="off" verticalScrollPolicy="off"
+	verticalGap="1" horizontalGap="1"
+	creationComplete="onCreation_CompleteHandler(event)">
+
+	<mx:Script>
+	<![CDATA[
+		import mx.collections.ArrayCollection;
+		import mx.core.DragSource;
+        import mx.events.DragEvent;
+        import mx.events.FlexEvent;
+        import mx.events.ItemClickEvent;
+        import mx.events.IndexChangedEvent;
+        import mx.managers.DragManager;
+		import flash.events.TimerEvent;
+		import mx.utils.ObjectUtil;
+		import mx.core.UIComponent;
+		import mx.controls.Label;
+		
+		[Bindable]
+		private var timezonesXML:XML = <timezones>
+											<timezone country="Australia" flag="assets/icons/australia.jpg" utcoffsetmin="+600"/>
+											<timezone country="China" flag="assets/icons/china.jpg" utcoffsetmin="+480"/>
+											<timezone country="South Africa" flag="assets/icons/south_africa.jpg" utcoffsetmin="+120"/>
+											<timezone country="New Zealand" flag="assets/icons/newzealand.jpg" utcoffsetmin="+720"/>
+											<timezone country="UK" flag="assets/icons/uk.jpg" utcoffsetmin="0"/>
+											<timezone country="USA" flag="assets/icons/usa.jpg" utcoffsetmin="-300"/>
+											<timezone country="Dubai" flag="assets/icons/dubai.jpg" utcoffsetmin="+240"/>
+											<timezone country="Malaysia" flag="assets/icons/malaysia.jpg" utcoffsetmin="+480"/>
+											<timezone country="Singapore" flag="assets/icons/singapore.jpg" utcoffsetmin="+480"/>
+											<timezone country="Brazil" flag="assets/icons/brazil.jpg" utcoffsetmin="-180"/>
+											<timezone country="Germany" flag="assets/icons/germany.jpg" utcoffsetmin="+120"/>
+											<timezone country="Sudan" flag="assets/icons/sudan.jpg" utcoffsetmin="+180"/>
+											<timezone country="Switzerland" flag="assets/icons/switzerland.jpg" utcoffsetmin="+60"/>
+											<timezone country="Canada" flag="assets/icons/canada.jpg" utcoffsetmin="-300"/>
+										</timezones>;
+										
+		[Bindable]
+		private var listData:ArrayCollection = new ArrayCollection([{label:'Organization Structure', icon:'assets/icons/icon_organization.png'},
+																{label:'Telephone Directory', icon:'assets/icons/icon_directory.png'},
+																{label:'Img Automation Portal', icon:'assets/icons/icon_img_automation.png'},
+																{label:'Img Call Login', icon:'assets/icons/icon_img_call.png'},
+																{label:'Attendance Report System', icon:'assets/icons/icon_attendance.png'},
+																{label:'CRM Login', icon:'assets/icons/icon_login.png'},
+																{label:'Integrated Information System', icon:'assets/icons/icon_iis.png'},
+																{label:'Management Portlet', icon:'assets/icons/icon_management_portlet.png'},
+																{label:'Employee Self Service', icon:'assets/icons/icon_ess.png'}]);
+																
+					/*
+																{label:'Incident Tracking System', icon:'assets/icons/icon_incident_racking.png'},
+																{label:'List of Holidays', icon:'assets/icons/icon_holidays_list.png'},
+																{label:'Timesheet', icon:'assets/icons/icon_timesheet.png'},
+																{label:'Internal Audit Tool', icon:'assets/icons/icon_audit_tool.png'},
+																{label:'CRM FAQ', icon:'assets/icons/icon_crm_faq.png'},
+																{label:'Issue Tracking System', icon:'assets/icons/icon_issue_tracking.png'}	*/										
+			
+		[Bindable]
+		private var iconListData:ArrayCollection = new ArrayCollection([{label:'Ramco Community', icon:'assets/icons/icon_community.png'},
+																{label:'Blogs', icon:'assets/icons/icon_blog.png'}]);
+		[Bindable]														
+		private var tempData:ArrayCollection = new ArrayCollection(['1','2','3','4','5']);
+		
+		[Bindable]														
+		private var birthdaysColl:ArrayCollection = new ArrayCollection([{name:'Rajesh Dayal', dept:'BAVN', icon:'assets/icons/ph1.png'},
+																	{name:'Raghvendra', dept:'BAVN', icon:'assets/icons/ph2.png'},
+																	{name:'Akila', dept:'BAVN', icon:'assets/icons/ph3.png'},
+																	{name:'Manish', dept:'BAVN', icon:'assets/icons/ph4.png'},
+																	{name:'Vidhya', dept:'BAVN', icon:'assets/icons/ph5.png'}]);
+		
+		[Bindable]														
+		private var newHiresColl:ArrayCollection = new ArrayCollection([{name:'Sandhya', dept:'BAVN', icon:'assets/icons/ph6.png'},
+																	{name:'Bharathi', dept:'BAVN', icon:'assets/icons/ph7.png'},
+																	{name:'Vibhav', dept:'BAVN', icon:'assets/icons/ph8.png'},
+																	{name:'Neha', dept:'BAVN', icon:'assets/icons/ph9.png'},
+																	{name:'Muthuraj', dept:'BAVN', icon:'assets/icons/ph10.png'}]);
+																
+		/*private function onRepCanvas_MouseMoveHandler(event:MouseEvent, item:Object):void
+		{
+			
+			var dragInitiator:Canvas = event.currentTarget as Canvas;   
+                
+			var dragSource:DragSource = new DragSource();
+			dragSource.addData(item, 'item');
+					  
+			var dragProxy:Image = new Image();
+			dragProxy.source = 'assets/icons/icon_blog.png';//event.currentTarget.source;
+			dragProxy.width = 100 ;
+			dragProxy.height = 100 ;
+			  
+			  
+			DragManager.doDrag(dragInitiator, dragSource, event, dragInitiator);
+			trace("Repeater canvas moved -> do drag");
+		}
+		                
+		
+		*/
+		private function dragDropHandler(event:DragEvent):void 
+		{
+			
+			trace("List drop handler");
+			if(event.action == DragManager.COPY || event.ctrlKey)
+			{
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			}
+			/*var item:Object = event.dragSource.dataForFormat('item');
+			listData.addItem(item);*/
+		}
+		
+		
+		private function dragEnterHandler(event:DragEvent):void 
+		{
+			trace("List Drag enter handler");
+			if(event.action == DragManager.COPY || event.ctrlKey)
+			{
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			}
+			
+		 /* var dropTarget:TileListExt =event.currentTarget as TileListExt;
+		  if (event.dragSource.hasFormat('item')) 
+		  {
+			DragManager.acceptDragDrop(dropTarget);
+			trace("List Drag accepted");
+		  }*/
+		}
+		private function onIconlist_DragEnterHandler(event:DragEvent):void
+		{
+			trace("Action type:"+event.action);
+			if(iconListData.length >= tempData.length || event.action == DragManager.COPY || event.ctrlKey)
+			{
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			}
+		}
+		
+		
+		public function removeIconItem(data:Object):void
+		{
+			listData.addItem(iconListData.removeItemAt(iconListData.getItemIndex(data)));
+		}
+		private function onToggleButton_ItemClickHandler(event:ItemClickEvent):void
+		{
+			if(event.index == 0)
+			{
+				repCarousel.dataProvider = birthdaysColl;
+			}
+			else
+			{
+				repCarousel.dataProvider = newHiresColl;
+			}
+			
+			callLater(function():void{
+				toggleSelectedLabelVisibility(0);
+				carousel.restartAutoRotateTimer();
+			});
+		}
+				
+		private function onCreation_CompleteHandler(event:FlexEvent):void
+		{
+			//var rTimer:Timer = new Timer(4000);
+			//rTimer.addEventListener(TimerEvent.TIMER, onTimer_Handler);
+			//rTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onTimer_CompleteHandler);
+			//rTimer.start();
+		}
+		/*private function onTimer_Handler(event:TimerEvent):void
+		{
+			
+			if(carousel.selectedIndex <= carousel.numChildren-2)
+				carousel.selectedIndex += 1;
+			else
+				carousel.selectedIndex = 0;
+				
+		}
+		private function onTimer_CompleteHandler(event:TimerEvent):void
+		{
+			trace("Timer Complete"+event.toString());
+		}*/
+		
+		private function onSelectedCarouselItemChange(event:IndexChangedEvent):void
+		{
+			toggleSelectedLabelVisibility(event.newIndex);
+		}
+		private function onCarouselCreationComplete(event:FlexEvent):void
+		{
+			toggleSelectedLabelVisibility(0);
+		}
+		private function toggleSelectedLabelVisibility(newIndex:Number):void
+		{
+			try
+			{
+				var selectedRepItem:VBox = carousel.getChildAt(newIndex) as VBox;
+				(selectedRepItem.getChildByName("lblName") as Label).visible = true;
+				(selectedRepItem.getChildByName("lblDept") as Label).visible = true;
+				selectedRepItem.alpha = 1;
+				selectedRepItem.validateNow();
+				selectedRepItem.dispatchEvent(new FlexEvent(FlexEvent.UPDATE_COMPLETE));
+				
+				for(var i:Number = 0; i <= carousel.numChildren - 1; i++)
+				{
+					if(i != newIndex)
+					{
+						var previousRepItem:VBox = carousel.getChildAt(i) as VBox;
+						(previousRepItem.getChildByName("lblName") as Label).visible = false;
+						(previousRepItem.getChildByName("lblDept") as Label).visible = false;
+						if(newIndex > i || newIndex < i)
+							previousRepItem.alpha = 0.1;
+						else
+							previousRepItem.alpha = 0.5;
+						
+						previousRepItem.validateNow();
+						previousRepItem.dispatchEvent(new FlexEvent(FlexEvent.UPDATE_COMPLETE));
+					}
+				}
+			}
+			catch(e:Error)
+			{
+				trace("unable to change visible for components");
+			}
+		}
+	]]>
+	</mx:Script>
+	<!--width="444" height="218"-->
+	<mx:VBox id="carouselWidget"  verticalGap="1" horizontalGap="1"  horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:HBox  horizontalScrollPolicy="off" verticalScrollPolicy="off"  verticalGap="1" horizontalGap="1">
+			
+			<timerWidget:TimerWidget width="90" height="84" styleName="transModelStyle" timeZoneProvider="{timezonesXML}" changable="false" showLocalTime="true"/>
+		
+			<timerWidget:TimerWidget width="90" height="84" styleName="transModelStyle" timeZoneProvider="{timezonesXML}" changable="true" showLocalTime="false"/>
+			
+			<timerWidget:TimerWidget width="90" height="84" styleName="transModelStyle" timeZoneProvider="{timezonesXML}" changable="true" showLocalTime="false"/>
+			
+			<mx:Canvas width="165" height="84" styleName="transModelStyle"> 
+				
+			</mx:Canvas>
+		</mx:HBox>
+		<mx:Canvas width="100%" height="136" styleName="transModelStyle">
+			<mx:Image verticalCenter="2" left="32" source="assets/icons/birthday_bg.png"/>
+			<mx:ToggleButtonBar verticalCenter="0" verticalGap="4" width="17" left="35" styleName="tglBtnCourselStyle"
+					direction="vertical" minWidth="0" selectedIndex="0" itemClick="onToggleButton_ItemClickHandler(event)" 
+					useHandCursor="true" buttonMode="true">
+				<mx:dataProvider>
+					<mx:ArrayCollection>
+						<mx:String></mx:String>
+						<mx:String></mx:String>
+					</mx:ArrayCollection>
+				</mx:dataProvider>
+			</mx:ToggleButtonBar>
+			
+			<containers:CoverFlowContainer id="carousel" width="200" horizontalCenter="0" verticalCenter="0" reflectionEnabled="true" autoRotate="true"
+				useHandCursor="true" buttonMode="true" change="onSelectedCarouselItemChange(event)" creationComplete="onCarouselCreationComplete(event)">
+				<mx:Repeater id="repCarousel" dataProvider="{birthdaysColl}" width="100%" height="84">
+					<mx:VBox width="83" height="110" verticalGap="0" horizontalScrollPolicy="off" verticalScrollPolicy="off"
+							horizontalAlign="center" verticalAlign="middle"  useHandCursor="true" buttonMode="true"
+							 backgroundColor="0x000000" backgroundAlpha="0.01">
+						<mx:Image source="{repCarousel.currentItem.icon}" useHandCursor="true" buttonMode="true"/>
+						<mx:Label id="lblName" text="{repCarousel.currentItem.name}" width="100%" alpha="0.5" 
+							fontSize="12" color="0xFAFAFA" textAlign="center" fontFamily="Arial" visible="false"/>
+						<mx:Label id="lblDept" text="{repCarousel.currentItem.dept}" width="100%" fontSize="13"
+							color="0x9d9d9d" textAlign="center" fontFamily="Arial" visible="false"/>
+					</mx:VBox>
+				</mx:Repeater>
+			</containers:CoverFlowContainer>
+		</mx:Canvas>
+	</mx:VBox>
+	
+	<mx:VBox id="listWidget"  verticalGap="1" horizontalGap="1" >
+		<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off">
+			<mx:HBox width="450" height="84" horizontalGap="1" verticalGap="1" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<mx:Repeater id="repIconList" dataProvider="{tempData}" width="100%" height="84">
+					<mx:Canvas width="90" height="84"  horizontalScrollPolicy="off" verticalScrollPolicy="off" styleName="transModelStyle"/> 
+				</mx:Repeater>
+			</mx:HBox>
+			<comp:TileListExt id="lstIconNavigator" dataProvider="{iconListData}" width="100%" height="84" rowHeight="84" columnWidth="90" 
+						horizontalGap="1" verticalGap="5" rollOverColor="0xFFFFFF" selectionColor="0xFFFFFF" borderColor="0x000000" borderThickness="0"
+						maxColumns="5" columnCount="5" maxRows="1" rowCount="1" direction="horizontal" 
+						horizontalScrollPolicy="off" verticalScrollPolicy="off" focusAlpha="0"
+						dragEnabled="true" dropEnabled="true" dragMoveEnabled="true" backgroundAlpha="0.0"
+						showSelectionIndicator="false"
+						showHighlightIndicator="false"
+						useRollOver="false"
+						dragEnter="onIconlist_DragEnterHandler(event)"
+						dragDrop="dragDropHandler(event)">
+				<comp:itemRenderer>
+					<mx:Component>
+						<mx:Canvas width="90" height="84"  horizontalScrollPolicy="off" verticalScrollPolicy="off" styleName="transModelStyle" backgroundColor="0x000000" backgroundAlpha="0.01"
+									rollOver="{lblIconItem.styleName='lblListOver'; imgClose.visible = true;}" rollOut="{lblIconItem.styleName='lblListNormal'; imgClose.visible = false;}"
+									 useHandCursor="true" buttonMode="true"> 
+							<mx:VBox width="90" height="84" horizontalScrollPolicy="off" verticalScrollPolicy="off" horizontalAlign="center" verticalAlign="middle">
+								<mx:Image width="43" height="43" source="{data.icon}"/>
+								<mx:Label id="lblIconItem" text="{data.label}" width="88" styleName="lblListNormal" textAlign="center" useHandCursor="true" buttonMode="true"/>
+							</mx:VBox>
+							<mx:Image id="imgClose" right="5" top="5" visible="false" source="assets/icons/delete_icon.png" click="outerDocument.removeIconItem(data)"/>
+						</mx:Canvas>
+					</mx:Component>
+				</comp:itemRenderer>
+			</comp:TileListExt>
+		</mx:Canvas>
+		
+		<!--dragEnter="dragEnterHandler(event)"
+						dragDrop="dragDropHandler(event)"-->
+						
+		<mx:Canvas width="100%" height="136" styleName="transModelStyle">
+			<comp:TileListExt id="lstLabelNavigator" dataProvider="{listData}" width="100%" height="100%" rowHeight="25" columnWidth="200" 
+						horizontalGap="0" verticalGap="0" rollOverColor="0xFFFFFF" selectionColor="0xFFFFFF" textRollOverColor="0xff9000"
+						borderColor="0x000000" borderThickness="0"
+						maxColumns="2" columnCount="2" maxRows="5" rowCount="5" direction="vertical" 
+						horizontalScrollPolicy="off" verticalScrollPolicy="off" 
+						dragEnabled="true" dropEnabled="true" dragMoveEnabled="true" backgroundAlpha="0.0"
+						showSelectionIndicator="false" textIndent="10" focusAlpha="0"
+						showHighlightIndicator="false" paddingTop="10"
+						useRollOver="false"
+						dragEnter="dragEnterHandler(event)"
+						dragDrop="dragDropHandler(event)">
+						
+				<comp:itemRenderer>
+					<mx:Component>
+						<mx:Canvas useHandCursor="true" buttonMode="true" horizontalScrollPolicy="off" verticalScrollPolicy="off" backgroundAlpha="0">
+							<mx:HBox width="170" height="25" verticalAlign="middle" paddingBottom="8"
+									rollOver="{lblItem.styleName='lblListOver'}" rollOut="{lblItem.styleName='lblListNormal'}"
+									backgroundColor="0x000000" backgroundAlpha="0.01"
+									mouseChildren="false" useHandCursor="true" buttonMode="true" >
+								<mx:Label id="lblItem" text="{data.label}" styleName="lblListNormal" verticalCenter="0" />
+							</mx:HBox>
+						</mx:Canvas>
+					</mx:Component>
+				</comp:itemRenderer>
+			</comp:TileListExt>
+		</mx:Canvas>
+	</mx:VBox>
+</mx:HBox>
